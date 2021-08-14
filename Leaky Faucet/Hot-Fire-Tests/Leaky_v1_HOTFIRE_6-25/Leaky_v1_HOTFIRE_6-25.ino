@@ -84,7 +84,6 @@ void setup() {
 	//thermosInit();
 	solenoidInit();
 	cameraInit();
-	Serial.println("Beginning Testing");
 
 	waitForOn();
 }
@@ -96,9 +95,9 @@ void loop() {
 		firingSequence.Stop();
 		aborted = true;
 
-		Serial.println(" TEST ABORTED ");
-		Serial.println(" SAFING SYSTEM ");
-		Serial.println(" YOU MAY NOW INPUT COMMANDS \n");
+		Serial.println("TEST ABORTED");
+		Serial.println("SYSTEM SAFED");
+		Serial.println("YOU MAY NOW INPUT COMMANDS\n");
 	}
 
 	countdown.Update();
@@ -213,9 +212,9 @@ void solenoidInit() {
 
 //while loop that begins the countdown when you send something in the serial port
 void waitForOn() {
-	Serial.println(" WAITING TO START ");
-	Serial.println(" S: START TEST ");
-	Serial.println(" A: ABORT TEST ");
+	Serial.println("WAITING TO START");
+	Serial.println("S: START TEST");
+	Serial.println("A: ABORT TEST");
 
 	while (true) {
 		if (Serial.available() > 0) {
@@ -225,20 +224,20 @@ void waitForOn() {
 				Serial.println("COUNTDOWN START -------------");
 				delay(20);
 				Serial.println("COUNTDOWN START -------------");
-				Serial.println("LC1, LC2, LC3, LC4, millis, prevMill, Countdown");
+				Serial.println("LC1, LC2, LC3, LC4, Countdown");
 
 				countdown.Start();
 				return;
 			}
 			else if (Serial.read() == 65) {
-				Serial.println(" TEST ABORTED ");
-				Serial.println(" SAFING SYSTEM ");
-				Serial.println(" YOU MAY NOW INPUT COMMANDS \n");
+				Serial.println("TEST ABORTED");
+				Serial.println("SYSTEM SAFED");
+				Serial.println("YOU MAY NOW INPUT COMMANDS\n");
 				aborted = true;
 				return;
 			}
 			else {
-				Serial.println(" INVALID COMMAND ");
+				Serial.println("INVALID COMMAND");
 			}
 		}
 		//readThermos();
@@ -255,23 +254,23 @@ void output() {
 
 //Just says that the system is safed
 void safingSequence() {
-	Serial.println(" SYSTEM SAFED ");
+	Serial.println("SYSTEM SAFED");
 	delay(200);
 }
 
 //Abort the test and allow commands from the serial
 void abortSequence() {
 	delay(1000);
-	Serial.println(" **SYNTAX EX. OPEN MPV OR COMMAND VALVE** \n");
-	Serial.println(" ---------- VALID COMMANDS ---------- ");
-	Serial.println(" OPEN: CAUSES SPECIFIED VALVE TO OPEN ");
-	Serial.println(" CLOSE: CAUSES SPECIFIED VALVE TO CLOSE \n");
-	Serial.println(" ---------- LIST OF VALVES ----------");
-	Serial.println(" MPV: METHANOL PURGE VALVE ");
-	Serial.println(" MTAV: METHANOL AFT VALVE ");
-	Serial.println(" NMV: NITROGEN MAIN VALVE ");
-	Serial.println(" APV_AIR: AIR PNEUMATIC VALVE - AIR ");
-	Serial.println(" APV_METH: AIR PNEUMATIC VALVE - METHANOL \n");
+	Serial.println("**SYNTAX EX. OPEN MPV OR COMMAND VALVE**\n");
+	Serial.println("---------- VALID COMMANDS ----------");
+	Serial.println("OPEN: CAUSES SPECIFIED VALVE TO OPEN");
+	Serial.println("CLOSE: CAUSES SPECIFIED VALVE TO CLOSE\n");
+	Serial.println("---------- LIST OF VALVES ----------");
+	Serial.println("MPV: METHANOL PURGE VALVE");
+	Serial.println("MTAV: METHANOL AFT VALVE");
+	Serial.println("NMV: NITROGEN MAIN VALVE");
+	Serial.println("APV_AIR: AIR PNEUMATIC VALVE - AIR");
+	Serial.println("APV_METH: AIR PNEUMATIC VALVE - METHANOL\n");
 
 	while (true) {
 		if (Serial.available() > 0) {
@@ -318,7 +317,7 @@ void abortSequence() {
 	}
 	if (command.equals("OPEN WD1")) {
 		digitalWrite(WD1, LOW);
-		Serial.println("WD1 OPEN");
+		Serial.println("WD1 OPENED");
 	}
 	if (command.equals("IGN")) {
 		digitalWrite(IGNITOR, LOW);
