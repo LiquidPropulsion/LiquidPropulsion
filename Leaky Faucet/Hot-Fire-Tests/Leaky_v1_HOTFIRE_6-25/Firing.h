@@ -8,7 +8,7 @@ public:
 	void Start();
 	void Stop();
 	bool IsDone() const;
-	bool IsStarted const;
+	bool IsStarted() const;
 
 private:
 	unsigned long previous_millis;
@@ -23,7 +23,7 @@ Firing::Firing() {
 	stage = 0;
 }
 
-Firing::Update() {
+void Firing::Update() {
 	if (!done) {
 		unsigned long current_millis = millis();
 
@@ -43,7 +43,7 @@ Firing::Update() {
 			stage++;
 			break;
 		case 1:
-			if (currentMillis - previous_millis > 600) { //Remmebr to change that number if necessary
+			if (current_millis - previous_millis > 600) { //Remmebr to change that number if necessary
 				digitalWrite(APV_AIR, LOW);
 				Serial.println(" AIR APV: ENERGIZED");
 				digitalWrite(IGNITOR, LOW);
@@ -52,7 +52,7 @@ Firing::Update() {
 			}
 			break;
 		case 2:
-			if (currentMillis - previousMillisFire > 850) { //850
+			if (current_millis - previous_millis > 850) {
 				digitalWrite(APV_METH, HIGH);
 				digitalWrite(APV_AIR, HIGH);
 				digitalWrite(XT3, HIGH); //test turning camera off
@@ -63,7 +63,7 @@ Firing::Update() {
 			}
 			break;
 		case 3:
-			if (currentMillis - previousMillisFire > 4850) {
+			if (current_millis - previous_millis > 4850) {
 				digitalWrite(MPV, HIGH);
 				Serial.println(" MPV: DE-ENERGIZED ");
 				digitalWrite(WD1, HIGH);
@@ -73,13 +73,14 @@ Firing::Update() {
 			}
 			break;
 		case 4:
-			if (currentMillis - previousMillisFire > 7850) {
+			if (current_millis - previous_millis > 7850) {
 				digitalWrite(NMV, HIGH);
 				Serial.println(" NMV: DE-ENERGIZED ");
 				stage++;
 			}
+     break;
 		case 5:
-			if (currentMillis - previousMillisFire > 8850) {
+			if (current_millis - previous_millis > 8850) {
 				Serial.print(" TEST END ");
 				done = true;
 			}
@@ -102,4 +103,8 @@ void Firing::Stop() {
 
 bool Firing::IsDone() const {
 	return done;
+}
+
+bool Firing::IsStarted() const {
+  return started;
 }

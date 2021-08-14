@@ -6,6 +6,19 @@
 */
 
 //Includes and Defines--------------------------------------------------------
+//Camera
+const byte XT3 = 50; //output pin for camera trigger
+const byte testLED = 52; //output pin for led in camera
+
+//Defining pins
+const byte IGNITOR = 46; //ignitor
+const byte WD1 = 44; //Water deluge pins
+const byte WD2 = 48;
+const byte APV_AIR = 40; //Air pneumatic valve pins
+const byte APV_METH = 42;
+const byte NMV = 38; //Nitrogen main valve
+const byte MPV = 36; //Methanol purge valve
+
 //#include <Adafruit_MAX31856.h>
 #include <Wire.h>
 //#include <Q2HX711.h>
@@ -15,16 +28,11 @@
 //Functions-------------------------------------------------------------------
 //void thermosInit();
 //void readThermos();
-void readLoadCells();
+//void readLoadCells();
 void waitForOn();
-void countdown();
 void safingSequence();
 
 //Global Variables------------------------------------------------------------
-
-//Camera
-const byte XT3 = 50; //output pin for camera trigger
-const byte testLED = 52; //output pin for led in camera 
 
 //Thermocouples info -----------------------------------------------------------
 
@@ -57,23 +65,12 @@ float loadCellData;
 //                      ,Q2HX711(DATA[3], CLK_LC)
 //                      };
 
-
-//Solenoids ------------------------------------------------------------------
-//Defining pins
-const byte IGNITOR = 46; //ignitor
-const byte WD1 = 44; //Water deluge pins
-const byte WD2 = 48;
-const byte APV_AIR = 40; //Air pneumatic valve pins
-const byte APV_METH = 42;
-const byte NMV = 38; //Nitrogen main valve
-const byte MPV = 36; //Methanol purge valve
-
 //Interrupt
 const byte onOffPin = 3;  //Interrupt pin
 int switchVal;
 
 // Other variables
-bool abort = false;
+bool aborted = false;
 String command;
 
 Countdown countdown(60);
@@ -97,7 +94,7 @@ void loop() {
 	if (Serial.read() == 65) {
 		countdown.Stop();
 		firingSequence.Stop();
-		abort = true;
+		aborted = true;
 
 		Serial.println(" TEST ABORTED ");
 		Serial.println(" SAFING SYSTEM ");
@@ -118,7 +115,7 @@ void loop() {
 		}
 	}
 
-	if (abort) {
+	if (aborted) {
 		abortSequence();
 	}
 
@@ -176,15 +173,15 @@ void readThermos(){
 }
 */
 
-void readLoadCells() {
-	//Getting Load Cell data. Comment out as necessary
-	for (int i = 0; i < numLoadCells; i++) {
-		//loadCellData = loadCells[i].read() * loadCellTransformationsA[i] + loadCellTransformationsB[i];
-		loadCellData = loadCells[i].read();
-		Serial.print(loadCellData);
-		Serial.print(",");
-	}
-}
+//void readLoadCells() {
+//	//Getting Load Cell data. Comment out as necessary
+//	for (int i = 0; i < numLoadCells; i++) {
+//		//loadCellData = loadCells[i].read() * loadCellTransformationsA[i] + loadCellTransformationsB[i];
+//		loadCellData = loadCells[i].read();
+//		Serial.print(loadCellData);
+//		Serial.print(",");
+//	}
+//}
 
 //SYSTEM FUNCTIONS=================================================================
 
@@ -228,7 +225,6 @@ void waitForOn() {
 				Serial.println("COUNTDOWN START -------------");
 				delay(20);
 				Serial.println("COUNTDOWN START -------------");
-				previousMillisCount = millis();
 				Serial.println("LC1, LC2, LC3, LC4, millis, prevMill, Countdown");
 
 				countdown.Start();
@@ -238,7 +234,7 @@ void waitForOn() {
 				Serial.println(" TEST ABORTED ");
 				Serial.println(" SAFING SYSTEM ");
 				Serial.println(" YOU MAY NOW INPUT COMMANDS \n");
-				abort = true;
+				aborted = true;
 				return;
 			}
 			else {
@@ -253,12 +249,8 @@ void waitForOn() {
 
 //Stuff to display in the serial to reduce clutter
 void output() {
-	readLoadCells();
-	Serial.print(currentMillis);
-	Serial.print(",");
-	Serial.print(previousMillisFire);
-	Serial.print(",");
-	Serial.println(count);
+	//readLoadCells();
+	Serial.println(countdown.GetCount());
 }
 
 //Just says that the system is safed

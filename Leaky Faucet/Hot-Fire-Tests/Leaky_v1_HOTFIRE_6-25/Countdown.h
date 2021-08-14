@@ -9,6 +9,7 @@ public:
 	void Start();
 	void Stop();
 	bool IsDone() const;
+  int GetCount() const;
 
 private:
 	int count;
@@ -63,4 +64,8 @@ void Countdown::Stop() {
 
 bool Countdown::IsDone() const {
 	return count == 0 && running;
+}
+
+int Countdown::GetCount() const {
+  return count;
 }
