@@ -1,6 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Leaky Faucet"
   ],
+  "SelectedNode": "\\Leaky Faucet\\PressureTransducerCode.ino",
   "PreviewInSolutionExplorer": false
 }
