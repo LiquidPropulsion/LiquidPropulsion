@@ -36,8 +36,6 @@ void Firing::Update() {
 
 		switch (stage) {
 		case 0:
-			digitalWrite(XT3, LOW); //test turning camera on
-			digitalWrite(testLED, LOW);
 			digitalWrite(APV_METH, LOW);
 			Serial.println(" METHANOL APV: ENERGIZED ");
 			stage++;
@@ -55,7 +53,6 @@ void Firing::Update() {
 			if (current_millis - previous_millis > 850) {
 				digitalWrite(APV_METH, HIGH);
 				digitalWrite(APV_AIR, HIGH);
-				digitalWrite(XT3, HIGH); //test turning camera off
 				digitalWrite(IGNITOR, HIGH);
 				Serial.println(" METHANOL APV: DE-ENERGIZED ");
 				Serial.println(" AIR APV: DE-ENERGIZED ");

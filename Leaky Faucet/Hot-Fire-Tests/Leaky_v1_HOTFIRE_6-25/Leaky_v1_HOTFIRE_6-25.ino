@@ -16,7 +16,6 @@ const byte APV_METH = 44;
 const byte NMV = 40; //Nitrogen main valve
 const byte MPV = 38; //Methanol purge valve
 
-#include <Wire.h>
 //#include <Q2HX711.h>
 #include "Countdown.h"
 #include "Firing.h"
@@ -27,13 +26,6 @@ void waitForOn();
 void safingSequence();
 
 //Global Variables------------------------------------------------------------
-
-//READ THERMOCOUPLES EVERY SECOND OR TWO IN ABORT
-const byte numThermos = 2;                 //Change based on thermocouples
-const int CS[] = { 10, 9, 8, 7 };     //Also change based on thermocouples
-const byte DI = 11;
-const byte DL = 12;
-const byte CLK_T = 13;
 
 //Load Cells Info -------------------------------------------------------------
 const int numLoadCells = 4;
@@ -142,7 +134,8 @@ void waitForOn() {
 
 	while (true) {
 		if (Serial.available() > 0) {
-			if (Serial.read() == 83) {
+			int command = Serial.read();
+			if (command == 83) {
 				Serial.println("COUNTDOWN START -------------");
 				delay(20);
 				Serial.println("COUNTDOWN START -------------");
@@ -153,7 +146,7 @@ void waitForOn() {
 				countdown.Start();
 				return;
 			}
-			else if (Serial.read() == 65) {
+			else if (command == 65) {
 				Serial.println("TEST ABORTED");
 				Serial.println("SYSTEM SAFED");
 				Serial.println("YOU MAY NOW INPUT COMMANDS\n");
@@ -250,13 +243,6 @@ void abortSequence() {
 	if (command.equals("NGI")) {
 		digitalWrite(IGNITOR, HIGH);
 		Serial.println("IGNITOR OFF");
-	}
-	if (command.equals("test")) {
-		digitalWrite(XT3, LOW);
-		digitalWrite(testLED, LOW);
-		delay(1000);
-		digitalWrite(XT3, HIGH);
-		digitalWrite(testLED, HIGH);
 	}
 
 	Serial.println();
