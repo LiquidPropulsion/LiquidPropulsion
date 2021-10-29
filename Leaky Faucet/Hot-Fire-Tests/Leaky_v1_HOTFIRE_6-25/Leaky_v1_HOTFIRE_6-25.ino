@@ -6,35 +6,27 @@
 */
 
 //Includes and Defines--------------------------------------------------------
-//Camera
-const byte XT3 = 50; //output pin for camera trigger
-const byte testLED = 52; //output pin for led in camera
 
 //Defining pins
-const byte IGNITOR = 46; //ignitor
-const byte WD1 = 44; //Water deluge pins
-const byte WD2 = 48;
-const byte APV_AIR = 40; //Air pneumatic valve pins
-const byte APV_METH = 42;
-const byte NMV = 38; //Nitrogen main valve
-const byte MPV = 36; //Methanol purge valve
+const byte IGNITOR = 48; //ignitor
+const byte WD1 = 46; //Water deluge pins
+const byte WD2 = 50;
+const byte APV_AIR = 42; //Air pneumatic valve pins
+const byte APV_METH = 44;
+const byte NMV = 40; //Nitrogen main valve
+const byte MPV = 38; //Methanol purge valve
 
-//#include <Adafruit_MAX31856.h>
 #include <Wire.h>
 //#include <Q2HX711.h>
 #include "Countdown.h"
 #include "Firing.h"
 
 //Functions-------------------------------------------------------------------
-//void thermosInit();
-//void readThermos();
 //void readLoadCells();
 void waitForOn();
 void safingSequence();
 
 //Global Variables------------------------------------------------------------
-
-//Thermocouples info -----------------------------------------------------------
 
 //READ THERMOCOUPLES EVERY SECOND OR TWO IN ABORT
 const byte numThermos = 2;                 //Change based on thermocouples
@@ -42,12 +34,6 @@ const int CS[] = { 10, 9, 8, 7 };     //Also change based on thermocouples
 const byte DI = 11;
 const byte DL = 12;
 const byte CLK_T = 13;
-
-//Adafruit_MAX31856 thermos[] = {Adafruit_MAX31856(CS[0],DI,DL,CLK_T)
-//                               ,Adafruit_MAX31856(CS[1],DI,DL,CLK_T)
-//                               //,Adafruit_MAX31856(CS[2],DI,DL,CLK_T)
-//                               //,Adafruit_MAX31856(CS[3],DI,DL,CLK_T)
-//                               };
 
 //Load Cells Info -------------------------------------------------------------
 const int numLoadCells = 4;
@@ -81,9 +67,7 @@ Firing firingSequence;
 void setup() {
 	Serial.begin(115200);
 	Serial.println("Setup Initialized");
-	//thermosInit();
 	solenoidInit();
-	cameraInit();
 
 	waitForOn();
 }
@@ -120,57 +104,6 @@ void loop() {
 
 	output();
 }
-/*
-//INSTRUMENTATION FUNCTIONS========================================================
-void thermosInit(void){
-  for(int i = 0; i < numThermos; i++){
-	thermos[i].begin();
-	//thermos[i].config();
-	thermos[i].setThermocoupleType(MAX31856_TCTYPE_K);
-	// Thermocouple needs to be a K type to work. Otherwise, Code can't work.
-	Serial.print("Thermocouple type: ");
-	switch ( thermos[i].getThermocoupleType() ) {
-	  case MAX31856_TCTYPE_B: Serial.println("B Type"); break;
-	  case MAX31856_TCTYPE_E: Serial.println("E Type"); break;
-	  case MAX31856_TCTYPE_J: Serial.println("J Type"); break;
-	  case MAX31856_TCTYPE_K: Serial.println("K Type"); break;
-	  case MAX31856_TCTYPE_N: Serial.println("N Type"); break;
-	  case MAX31856_TCTYPE_R: Serial.println("R Type"); break;
-	  case MAX31856_TCTYPE_S: Serial.println("S Type"); break;
-	  case MAX31856_TCTYPE_T: Serial.println("T Type"); break;
-	  case MAX31856_VMODE_G8: Serial.println("Voltage x8 Gain mode"); break;
-	  case MAX31856_VMODE_G32: Serial.println("Voltage x8 Gain mode"); break;
-	  default: Serial.println("Unknown"); break;
-	 }
-   }
-}
-
-//==================================================
-// READ THERMOS
-
-void readThermos(){
-  for(int i = 0; i < numThermos; i++){
-	Serial.print("Thermocouple ");
-	Serial.print(i+1);
-	//Serial.print(" - Cold Junction Temp: ");
-	//Serial.print(thermos[i].readCJTemperature());
-	Serial.print(thermos[i].readThermocoupleTemperature());
-
-	//Check and print any faults
-	uint8_t fault = thermos[i].readFault();
-	if (fault) {
-	  if (fault & MAX31856_FAULT_CJRANGE) Serial.println("Cold Junction Range Fault");
-	  if (fault & MAX31856_FAULT_TCRANGE) Serial.println("Thermocouple Range Fault");
-	  if (fault & MAX31856_FAULT_CJHIGH)  Serial.println("Cold Junction High Fault");
-	  if (fault & MAX31856_FAULT_CJLOW)   Serial.println("Cold Junction Low Fault");
-	  if (fault & MAX31856_FAULT_TCHIGH)  Serial.println("Thermocouple High Fault");
-	  if (fault & MAX31856_FAULT_TCLOW)   Serial.println("Thermocouple Low Fault");
-	  if (fault & MAX31856_FAULT_OVUV)    Serial.println("Over/Under Voltage Fault");
-	  if (fault & MAX31856_FAULT_OPEN)    Serial.println("Thermocouple Open Fault");
-	}
-  }
-}
-*/
 
 //void readLoadCells() {
 //	//Getting Load Cell data. Comment out as necessary
@@ -184,14 +117,6 @@ void readThermos(){
 
 //SYSTEM FUNCTIONS=================================================================
 
-//Setup the output pins for the camera before any testing begins
-void cameraInit() {
-	pinMode(XT3, OUTPUT);
-	pinMode(testLED, OUTPUT);
-	digitalWrite(XT3, HIGH);
-	digitalWrite(testLED, HIGH);
-}
-
 //Setup the output pins for the solenoids before any testing begins
 void solenoidInit() {
 	pinMode(WD1, OUTPUT);
@@ -200,7 +125,6 @@ void solenoidInit() {
 	pinMode(APV_METH, OUTPUT);
 	pinMode(NMV, OUTPUT);
 	pinMode(MPV, OUTPUT);
-
 
 	digitalWrite(APV_AIR, HIGH); //The relay is, for whatever reason, closed when off
 	digitalWrite(APV_METH, HIGH); //litrally makes no sense to me but whatever
@@ -240,7 +164,7 @@ void waitForOn() {
 				Serial.println("INVALID COMMAND");
 			}
 		}
-		//readThermos();
+
 		//readLoadCells();
 		delay(50);
 	}
