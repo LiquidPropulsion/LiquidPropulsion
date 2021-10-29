@@ -8,24 +8,22 @@
 //Includes and Defines--------------------------------------------------------
 
 //Defining pins
-const byte IGNITOR = 48; //ignitor
-const byte WD1 = 46; //Water deluge pins
+const byte IGNITOR = 48;	//Ignitor
+const byte WD1 = 46;		//Water deluge pins
 const byte WD2 = 50;
-const byte APV_AIR = 42; //Air pneumatic valve pins
+const byte APV_AIR = 42;	//Air pneumatic valve pins
 const byte APV_METH = 44;
-const byte NMV = 40; //Nitrogen main valve
-const byte MPV = 38; //Methanol purge valve
+const byte NMV = 40;		//Nitrogen main valve
+const byte MPV = 38;		//Methanol purge valve
 
-//#include <Q2HX711.h>
+#include <Q2HX711.h>
 #include "Countdown.h"
 #include "Firing.h"
 
 //Functions-------------------------------------------------------------------
-//void readLoadCells();
+void readLoadCells();
 void waitForOn();
 void safingSequence();
-
-//Global Variables------------------------------------------------------------
 
 //Load Cells Info -------------------------------------------------------------
 const int numLoadCells = 4;
@@ -37,19 +35,14 @@ float loadCellTransformationsB[] = { 0, 0, 0, 0 };
 float loadCellData;
 
 
-//Q2HX711 loadCells[] = {Q2HX711(DATA[0], CLK_LC)
-//                      ,Q2HX711(DATA[1], CLK_LC) 
-//                      ,Q2HX711(DATA[2], CLK_LC)
-//                      ,Q2HX711(DATA[3], CLK_LC)
-//                      };
-
-//Interrupt
-const byte onOffPin = 3;  //Interrupt pin
-int switchVal;
+Q2HX711 loadCells[] = {Q2HX711(DATA[0], CLK_LC)
+                      ,Q2HX711(DATA[1], CLK_LC) 
+                      ,Q2HX711(DATA[2], CLK_LC)
+                      ,Q2HX711(DATA[3], CLK_LC)
+                      };
 
 // Other variables
 bool aborted = false;
-String command;
 
 Countdown countdown(60);
 Firing firingSequence;
@@ -97,15 +90,14 @@ void loop() {
 	output();
 }
 
-//void readLoadCells() {
-//	//Getting Load Cell data. Comment out as necessary
-//	for (int i = 0; i < numLoadCells; i++) {
-//		//loadCellData = loadCells[i].read() * loadCellTransformationsA[i] + loadCellTransformationsB[i];
-//		loadCellData = loadCells[i].read();
-//		Serial.print(loadCellData);
-//		Serial.print(",");
-//	}
-//}
+void readLoadCells() {
+	for (int i = 0; i < numLoadCells; i++) {
+		//loadCellData = loadCells[i].read() * loadCellTransformationsA[i] + loadCellTransformationsB[i];
+		loadCellData = loadCells[i].read();
+		Serial.print(loadCellData);
+		Serial.print(",");
+	}
+}
 
 //SYSTEM FUNCTIONS=================================================================
 
@@ -177,6 +169,8 @@ void safingSequence() {
 
 //Abort the test and allow commands from the serial
 void abortSequence() {
+	String command;
+
 	delay(1000);
 	Serial.println("**SYNTAX EX. OPEN MPV OR COMMAND VALVE**\n");
 	Serial.println("---------- VALID COMMANDS ----------");
