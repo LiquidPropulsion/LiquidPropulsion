@@ -8,9 +8,8 @@
 //Includes and Defines--------------------------------------------------------
 
 //Defining pins
-const byte IGNITOR = 48;	//Ignitor
+const byte IGNITOR = 50;	//Ignitor
 const byte WD1 = 46;		//Water deluge pins
-const byte WD2 = 50;
 const byte APV_AIR = 42;	//Air pneumatic valve pins
 const byte APV_METH = 44;
 const byte NMV = 40;		//Nitrogen main valve
@@ -26,7 +25,7 @@ void waitForOn();
 void safingSequence();
 
 //Load Cells Info -------------------------------------------------------------
-const int numLoadCells = 4;
+const int numLoadCells = 1;
 const int DATA[] = { 43, 49, 45, 47 };
 const int CLK_LC = 41;
 
@@ -36,9 +35,9 @@ float loadCellData;
 
 
 Q2HX711 loadCells[] = {Q2HX711(DATA[0], CLK_LC)
-                      ,Q2HX711(DATA[1], CLK_LC) 
-                      ,Q2HX711(DATA[2], CLK_LC)
-                      ,Q2HX711(DATA[3], CLK_LC)
+                      //,Q2HX711(DATA[1], CLK_LC) 
+                      //,Q2HX711(DATA[2], CLK_LC)
+                      //,Q2HX711(DATA[3], CLK_LC)
                       };
 
 // Other variables
@@ -104,7 +103,6 @@ void readLoadCells() {
 //Setup the output pins for the solenoids before any testing begins
 void solenoidInit() {
 	pinMode(WD1, OUTPUT);
-	pinMode(WD2, OUTPUT);
 	pinMode(APV_AIR, OUTPUT);
 	pinMode(APV_METH, OUTPUT);
 	pinMode(NMV, OUTPUT);
@@ -115,7 +113,6 @@ void solenoidInit() {
 	digitalWrite(NMV, HIGH); //LOW = ON/RELAY POWERED
 	digitalWrite(MPV, HIGH); //HIGH = OFF/RELAY UNPOWERED
 	digitalWrite(WD1, HIGH);
-	digitalWrite(WD2, HIGH);
 }
 
 //while loop that begins the countdown when you send something in the serial port
@@ -157,7 +154,7 @@ void waitForOn() {
 
 //Stuff to display in the serial to reduce clutter
 void output() {
-	//readLoadCells();
+	readLoadCells();
 	Serial.println(countdown.GetCount());
 }
 
