@@ -50,7 +50,7 @@ void Firing::Update() {
 			}
 			break;
 		case 2:
-			if (current_millis - previous_millis > 2300) {
+			if (current_millis - previous_millis > 2800) {
 				digitalWrite(APV_METH, HIGH);
 				digitalWrite(APV_AIR, HIGH);
 				Serial.println(" METHANOL APV: DE-ENERGIZED ");
@@ -66,7 +66,7 @@ void Firing::Update() {
         digitalWrite(IGNITOR, HIGH);
 				//digitalWrite(WD2, HIGH);
 				Serial.println(" WATER DELUGE DE-ACTIVATED ");
-				stage++;+
+				stage++;
 			}
 			break;
 		case 4:
