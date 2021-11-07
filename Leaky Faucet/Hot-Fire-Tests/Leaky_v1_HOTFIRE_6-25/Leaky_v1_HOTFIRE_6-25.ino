@@ -8,7 +8,7 @@
 //Includes and Defines--------------------------------------------------------
 
 //Defining pins
-const byte IGNITOR = 50;	//Ignitor
+const byte IGNITOR = 48;	//Ignitor
 const byte WD1 = 46;		//Water deluge pins
 const byte APV_AIR = 42;	//Air pneumatic valve pins
 const byte APV_METH = 44;
@@ -107,12 +107,14 @@ void solenoidInit() {
 	pinMode(APV_METH, OUTPUT);
 	pinMode(NMV, OUTPUT);
 	pinMode(MPV, OUTPUT);
+  pinMode(IGNITOR, OUTPUT);
 
 	digitalWrite(APV_AIR, HIGH); //The relay is, for whatever reason, closed when off
 	digitalWrite(APV_METH, HIGH); //litrally makes no sense to me but whatever
 	digitalWrite(NMV, HIGH); //LOW = ON/RELAY POWERED
 	digitalWrite(MPV, HIGH); //HIGH = OFF/RELAY UNPOWERED
 	digitalWrite(WD1, HIGH);
+  digitalWrite(IGNITOR, HIGH);
 }
 
 //while loop that begins the countdown when you send something in the serial port
@@ -139,6 +141,7 @@ void waitForOn() {
 				Serial.println("TEST ABORTED");
 				Serial.println("SYSTEM SAFED");
 				Serial.println("YOU MAY NOW INPUT COMMANDS\n");
+        solenoidInit(); //de-energizes all solenoids
 				aborted = true;
 				return;
 			}
