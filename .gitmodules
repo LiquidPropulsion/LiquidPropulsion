@@ -1,0 +1,3 @@
+[submodule "Leaky Faucet/Hot-Fire-Tests/leaky-faucet-pt-dashboard"]
+	path = Leaky Faucet/Hot-Fire-Tests/leaky-faucet-pt-dashboard
+	url = https://github.com/McMackety/leaky-faucet-pt-dashboard.git
