@@ -15,13 +15,16 @@ void setup() {
 }
 
 void loop() {
-  if (digitalRead(sync_pin) == HIGH) {
+  if (digitalRead(sync_pin) == HIGH && !print_time) {
     print_time = true;
     start_millis = millis();
   }
 
   if (print_time) {
     Serial.print(millis() - start_millis);
+    Serial.print(',');
+  } else {
+    Serial.print("0");
     Serial.print(',');
   }
   
