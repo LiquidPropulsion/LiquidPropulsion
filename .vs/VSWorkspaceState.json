@@ -1,8 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Leaky Faucet"
+    "\\Leaky Faucet",
+    "\\Leaky Faucet\\Hot-Fire-Tests",
+    "\\Leaky Faucet\\Hot-Fire-Tests\\Leaky_v1_HOTFIRE_6-25"
   ],
-  "SelectedNode": "\\Leaky Faucet\\PressureTransducerCode.ino",
+  "SelectedNode": "\\Leaky Faucet\\Hot-Fire-Tests\\Leaky_v1_HOTFIRE_6-25\\Leaky_v1_HOTFIRE_6-25.ino",
   "PreviewInSolutionExplorer": false
 }

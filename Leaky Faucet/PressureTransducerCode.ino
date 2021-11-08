@@ -13,12 +13,12 @@ void setup() {
 void loop() {
   for (int i = 0; i < numTransducers; i++) {
       if (i == 7) {
-          float pressure = 3000 * (5 * read / 1023 - 0.5) / 5;
+          float pressure = 3000 * (5 * analogRead(pressurePins[i]) / 1023 - 0.5) / 5;
           Serial.print(pressure);
       }
       else {
           Serial.print(pressureMax[i] * analogRead(pressurePins[i]));
-          Serial.print(', ');
+          Serial.print(',');
       }
   }
   Serial.println();
