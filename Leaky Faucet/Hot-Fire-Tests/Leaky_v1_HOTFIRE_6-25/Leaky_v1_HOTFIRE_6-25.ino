@@ -15,6 +15,8 @@ const byte APV_METH = 44;
 const byte NMV = 40;		//Nitrogen main valve
 const byte MPV = 38;		//Methanol purge valve
 
+const byte sync_pin = 2;
+
 #include <Q2HX711.h>
 #include "Countdown.h"
 #include "Firing.h"
@@ -52,6 +54,8 @@ void setup() {
 	Serial.begin(115200);
 	Serial.println("Setup Initialized");
 	solenoidInit();
+  pinMode(sync_pin, OUTPUT);
+  digitalWrite(sync_pin, LOW);
 
 	waitForOn();
 }
@@ -134,6 +138,7 @@ void waitForOn() {
 				Serial.println("COUNTDOWN START -------------");
 				Serial.println("LC1, LC2, LC3, LC4, Countdown");
 
+				digitalWrite(sync_pin, HIGH);
 				countdown.Start();
 				return;
 			}
