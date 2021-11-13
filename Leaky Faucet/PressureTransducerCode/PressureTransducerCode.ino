@@ -1,5 +1,5 @@
-const int numTransducers = 8;
-int pressurePins[numTransducers] = {A0, A1, A2, A3, A4, A5, A6, A7};
+const int numTransducers = 9;
+int pressurePins[numTransducers] = {A0, A1, A2, A3, A4, A5, A6, A7, A8};
 const byte sync_pin = 2;
 bool print_time = false;
 unsigned long start_millis;
@@ -7,7 +7,7 @@ unsigned long start_millis;
 /*The way this works is that the array stores the max pressure reading of each transducer.This corresponds to a reading of 1023 from analogRead().
 * So, when we get the raw value, we multiply by max / 1023 to get the value in psi.
 */
-float pressureMax[numTransducers] = {0.0/1023.0, 500.0/1023.0, 500.0/1023.0, 0.0/1023.0, 3000.0/1023.0, 0.0/1023.0, 3000.0/1023.0};
+float pressureMax[numTransducers] = {0.0/1023.0, 500.0/1023.0, 500.0/1023.0, 0.0/1023.0, 3000.0/1023.0, 0.0/1023.0, 3000.0/1023.0, 1000.0/1023.0};
 
 void setup() {
   Serial.begin(115200);
