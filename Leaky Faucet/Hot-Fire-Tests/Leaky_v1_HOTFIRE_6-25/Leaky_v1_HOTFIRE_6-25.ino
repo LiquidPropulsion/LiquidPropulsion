@@ -22,7 +22,7 @@ const byte sync_pin = 2;
 #include "Firing.h"
 
 //Functions-------------------------------------------------------------------
-void readLoadCells();
+//void readLoadCells();
 void waitForOn();
 void safingSequence();
 
@@ -36,11 +36,11 @@ float loadCellTransformationsB[] = { 0, 0, 0, 0 };
 float loadCellData;
 
 
-Q2HX711 loadCells[] = {Q2HX711(DATA[0], CLK_LC)
+//Q2HX711 loadCells[] = {Q2HX711(DATA[0], CLK_LC)
                       //,Q2HX711(DATA[1], CLK_LC) 
                       //,Q2HX711(DATA[2], CLK_LC)
                       //,Q2HX711(DATA[3], CLK_LC)
-                      };
+                     // };
 
 // Other variables
 bool aborted = false;
@@ -93,6 +93,7 @@ void loop() {
 	output();
 }
 
+/*
 void readLoadCells() {
 	for (int i = 0; i < numLoadCells; i++) {
 		//loadCellData = loadCells[i].read() * loadCellTransformationsA[i] + loadCellTransformationsB[i];
@@ -101,7 +102,7 @@ void readLoadCells() {
 		Serial.print(",");
 	}
 }
-
+*/
 //SYSTEM FUNCTIONS=================================================================
 
 //Setup the output pins for the solenoids before any testing begins
@@ -162,7 +163,7 @@ void waitForOn() {
 
 //Stuff to display in the serial to reduce clutter
 void output() {
-	readLoadCells();
+	//readLoadCells();
 	Serial.println(countdown.GetCount());
 }
 
