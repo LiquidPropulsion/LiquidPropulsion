@@ -7,7 +7,7 @@ unsigned long start_millis;
 /*The way this works is that the array stores the max pressure reading of each transducer.This corresponds to a reading of 1023 from analogRead().
 * So, when we get the raw value, we multiply by max / 1023 to get the value in psi.
 */
-float pressureMax[numTransducers] = {0.0/1023.0, 500.0/1023.0, 500.0/1023.0, 0.0/1023.0, 3000.0/1023.0, 0.0/1023.0, 3000.0/1023.0, 500.0/1023.0};
+float pressureMax[numTransducers] = {0.0/1023.0, 500.0/1023.0, 500.0/1023.0, 0.0/1023.0, 3000.0/1023.0, 3000.0/1023.0, 3000.0/1023.0, 1000.0/1023.0};
 
 void setup() {
   Serial.begin(115200);
