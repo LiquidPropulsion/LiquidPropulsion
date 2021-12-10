@@ -41,7 +41,7 @@ void Firing::Update() {
 			stage++;
 			break;
 		case 1:
-			if (current_millis - previous_millis > 3000) { //Remmebr to change that number if necessary
+			if (current_millis - previous_millis > 5800) { //Remmebr to change that number if necessary
 				digitalWrite(APV_AIR, LOW);
 				Serial.println(" AIR APV: ENERGIZED");
 				digitalWrite(IGNITOR, LOW);
@@ -50,21 +50,21 @@ void Firing::Update() {
 			}
 			break;
     case 2:
-      if (current_millis - previous_millis > 3400) {
+      if (current_millis - previous_millis > 6300) {
         digitalWrite(APV_METH, HIGH);
         Serial.println(" METHANOL APV: DE-ENERGIZED ");
         stage++;
       }
     
 		case 3:
-			if (current_millis - previous_millis > 3750) {
+			if (current_millis - previous_millis > 6550) {
 				digitalWrite(APV_AIR, HIGH);
 				Serial.println(" METHANOL APV: DE-ENERGIZED ");
 				stage++;
 			}
 			break;
 		case 4:
-			if (current_millis - previous_millis > 6000) {
+			if (current_millis - previous_millis > 9000) {
 				digitalWrite(MPV, HIGH);
 				Serial.println(" MPV: DE-ENERGIZED ");
 				digitalWrite(WD1, HIGH);
@@ -75,7 +75,7 @@ void Firing::Update() {
 			}
 			break;
 		case 5:
-			if (current_millis - previous_millis > 8000) {
+			if (current_millis - previous_millis > 11000) {
 				digitalWrite(NMV, HIGH);
         
 				Serial.println(" NMV: DE-ENERGIZED ");
@@ -83,7 +83,7 @@ void Firing::Update() {
 			}
      break;
 		case 6:
-			if (current_millis - previous_millis > 8100) {
+			if (current_millis - previous_millis > 11100) {
 				Serial.print(" TEST END ");
 				done = true;
 			}
